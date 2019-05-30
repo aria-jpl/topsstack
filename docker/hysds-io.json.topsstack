@@ -1,0 +1,28 @@
+{
+  "label": "Run topsStack processor",
+  "submission_type": "individual",
+  "allowed_accounts": [ "ops" ],
+  "action-type":  "both",
+  "params": [
+    {
+      "name": "min_lat",
+      "from": "dataset_jpath:_min_lat",
+      "type": "text"
+    },
+    {
+      "name": "max_lat",
+      "from": "dataset_jpath:_max_lat",
+      "type": "text"
+    },
+    {
+      "name": "min_lon",
+      "from": "dataset_jpath:_min_lon",
+      "type": "text"
+    },
+    {
+      "name": "max_lon",
+      "from": "dataset_jpath:_max_lon",
+      "type": "text",
+    }
+  ]
+}
