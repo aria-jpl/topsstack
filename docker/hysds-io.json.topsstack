@@ -18,7 +18,7 @@
     },
     {
       "name": "max_lon",
-      "from": "dataset_jpath:metadata.max_lon",
+      "from": "dataset_jpath:metadata.max_lon"
     }
   ]
 }
