@@ -6,22 +6,22 @@
   "params": [
     {
       "name": "min_lat",
-      "from": "dataset_jpath:_min_lat",
+      "from": "dataset_jpath:metadata.min_lat",
       "type": "text"
     },
     {
       "name": "max_lat",
-      "from": "dataset_jpath:_max_lat",
+      "from": "dataset_jpath:metadata.max_lat",
       "type": "text"
     },
     {
       "name": "min_lon",
-      "from": "dataset_jpath:_min_lon",
+      "from": "dataset_jpath:metadata.min_lon",
       "type": "text"
     },
     {
       "name": "max_lon",
-      "from": "dataset_jpath:_max_lon",
+      "from": "dataset_jpath:metadata.max_lon",
       "type": "text"
     }
   ]
