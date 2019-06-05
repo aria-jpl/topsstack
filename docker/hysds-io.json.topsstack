@@ -22,7 +22,7 @@
     {
       "name": "max_lon",
       "from": "dataset_jpath:_max_lon",
-      "type": "text",
+      "type": "text"
     }
   ]
 }
