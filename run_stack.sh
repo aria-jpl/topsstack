@@ -7,12 +7,16 @@ TOKENS=$(python get_bbox.py _context.json)
 IFS=" "
 read MINLAT MAXLAT MINLON MAXLON MINLAT_LO MAXLAT_HI MINLON_LO MAXLON_HI <<< $TOKENS
 
+echo "Coords:"
+echo $MINLAT $MAXLAT $MINLON $MAXLON $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI
+
 # Prep SLCs
-#mkdir zip
-#mv S1*/*.zip zip
+mkdir zip
+mv S1*/*.zip zip
 
 # Get DEM
 echo dem.py -a stitch -b $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI -r -s 1 -c -f
+
 
 # Fix DEM
 if [[ $MINLAT_LO < 0 ]]; then
