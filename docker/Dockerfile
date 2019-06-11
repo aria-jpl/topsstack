@@ -28,7 +28,7 @@ RUN mkdir -p $STACK_INSTALL_DIR \
 USER ops
 
 # Copy topsStack PGE into docker image
-COPY . /home/ops/verdi/ops/topsstack_pge
+COPY . /home/ops/verdi/ops/topsstack
 
 # Change to work directory
 WORKDIR /home/ops
