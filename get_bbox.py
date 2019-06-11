@@ -14,10 +14,7 @@ def load_context():
 
 def main():
     ctx = load_context()
-    min_lat = ctx['min_lat']
-    max_lat = ctx['max_lat']
-    min_lon = ctx['min_lon']
-    max_lon = ctx['max_lon']
+    min_lat, max_lat, min_lon, max_lon = ctx['region_of_interest']
     min_lat_lo = floor(min_lat)
     max_lat_hi = ceil(max_lat)
     min_lon_lo = floor(min_lon)

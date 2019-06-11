@@ -4,21 +4,12 @@
   "allowed_accounts": [ "ops" ],
   "action-type":  "both",
   "params": [
-    {
-      "name": "min_lat",
-      "from": "dataset_jpath:_source.metadata.min_lat"
-    },
-    {
-      "name": "max_lat",
-      "from": "dataset_jpath:_source.metadata.max_lat"
-    },
-    {
-      "name": "min_lon",
-      "from": "dataset_jpath:_source.metadata.min_lon"
-    },
-    {
-      "name": "max_lon",
-      "from": "dataset_jpath:_source.metadata.max_lon"
-    }
+    { 
+      "name": "region_of_interest",
+      "from": "submitter",
+      "type": "region",
+      "optional": true,
+      "lambda":"lambda x: False if x == '' else region_to_bbox(x)"
+    } 
   ]
 }

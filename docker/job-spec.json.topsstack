@@ -9,20 +9,8 @@
   "time_limit": 18000,
   "disk_usage": "100GB",
   "params": [
-    {
-      "name": "min_lat",
-      "destination": "context"
-    },
-    {
-      "name": "max_lat",
-      "destination": "context"
-    },
-    {
-      "name": "min_lon",
-      "destination": "context"
-    },
-    {
-      "name": "max_lon",
+    { 
+      "name": "region_of_interest",
       "destination": "context"
     }
   ]
