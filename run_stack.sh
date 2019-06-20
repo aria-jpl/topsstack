@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
 set -e 
+PGE_BASE=$(cd `dirname ${BASH_SOURCE}`; pwd)
 
 # Get user's bounding box coordinates and outer box with integer coordinates
-TOKENS=$(python get_bbox.py _context.json)
+TOKENS=$(python ${PGE_BASE}/get_bbox.py _context.json)
 IFS=" "
 read MINLAT MAXLAT MINLON MAXLON MINLAT_LO MAXLAT_HI MINLON_LO MAXLON_HI <<< $TOKENS
 
