@@ -16,7 +16,7 @@ mkdir zip
 mv S1*/*.zip zip
 
 # Get DEM
-echo dem.py -a stitch -b $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI -r -s 1 -c -f
+dem.py -a stitch -b $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI -r -s 1 -c -f
 
 
 # Fix DEM
@@ -46,17 +46,16 @@ else
 fi
 WGS84=demLat_${NS_LO}${MINLAT_LO}_${NS_HI}${MAXLAT_HI}_Lon_${EW_LO}${MINLON_LO}_${EW_HI}${MAXLON_HI}.dem.wgs84
 if [[ -z $WGS84 ]]; then
-    echo fixImageXml.py -f -i $WGS84
+    fixImageXml.py -f -i $WGS84
 else
     echo $WGS84 does not exist!
     exit 1
 fi
 # Create stack processor run scripts
-echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b \'$MINLAT $MAXLAT $MINLON $MAXLON\' -W slc
+stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b \'$MINLAT $MAXLAT $MINLON $MAXLON\' -W slc
 
 # Process stack processor run scripts in order
 # Do the following in a loop?  
-exit 0
 source ./run_files/run_1_unpack_slc_topo_master
 source ./run_files/run_2_average_baseline
 source ./run_files/run_3_extract_burst_overlaps
