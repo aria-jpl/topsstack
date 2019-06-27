@@ -45,7 +45,7 @@ else
     EW_LO=E
 fi
 WGS84=demLat_${NS_LO}${MINLAT_LO}_${NS_HI}${MAXLAT_HI}_Lon_${EW_LO}${MINLON_LO}_${EW_HI}${MAXLON_HI}.dem.wgs84
-if [[ -z $WGS84 ]]; then
+if [[ -f $WGS84 ]]; then
     fixImageXml.py -f -i $WGS84
 else
     echo $WGS84 does not exist!
