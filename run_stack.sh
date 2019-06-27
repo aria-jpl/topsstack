@@ -16,6 +16,7 @@ mkdir zip
 mv S1*/*.zip zip
 
 # Get DEM
+echo dem.py -a stitch -b $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI -r -s 1 -c -f
 dem.py -a stitch -b $MINLAT_LO $MAXLAT_HI $MINLON_LO $MAXLON_HI -r -s 1 -c -f
 
 
@@ -46,23 +47,35 @@ else
 fi
 WGS84=demLat_${NS_LO}${MINLAT_LO}_${NS_HI}${MAXLAT_HI}_Lon_${EW_LO}${MINLON_LO}_${EW_HI}${MAXLON_HI}.dem.wgs84
 if [[ -f $WGS84 ]]; then
+    echo fixImageXml.py -f -i $WGS84
     fixImageXml.py -f -i $WGS84
 else
     echo $WGS84 does not exist!
     exit 1
 fi
 # Create stack processor run scripts
-stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b \'$MINLAT $MAXLAT $MINLON $MAXLON\' -W slc
+echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
 
 # Process stack processor run scripts in order
 # Do the following in a loop?  
+echo source ./run_files/run_1_unpack_slc_topo_master
 source ./run_files/run_1_unpack_slc_topo_master
+echo source ./run_files/run_2_average_baseline
 source ./run_files/run_2_average_baseline
+echo source ./run_files/run_3_extract_burst_overlaps
 source ./run_files/run_3_extract_burst_overlaps
+echo source ./run_files/run_4_overlap_geo2rdr_resample
 source ./run_files/run_4_overlap_geo2rdr_resample
+echo source ./run_files/run_5_pairs_misreg
 source ./run_files/run_5_pairs_misreg
+echo source ./run_files/run_6_timeseries_misreg
 source ./run_files/run_6_timeseries_misreg
+echo source ./run_files/run_7_geo2rdr_resample
 source ./run_files/run_7_geo2rdr_resample
+echo source ./run_files/run_8_extract_stack_valid_region
 source ./run_files/run_8_extract_stack_valid_region
+echo source ./run_files/run_9_merge
 source ./run_files/run_9_merge
+echo source ./run_files/run_10_grid_baseline
 source ./run_files/run_10_grid_baseline
