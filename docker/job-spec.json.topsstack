@@ -1,5 +1,5 @@
 {
-  "recommended_queues": ["jjacob-stack_worker"],
+  "recommended_queues": ["jjacob_stack"],
   "command": "/home/ops/verdi/ops/topsstack/run_stack.sh",
   "imported_worker_files": {
     "/home/ops/.netrc": "/home/ops/.netrc",
