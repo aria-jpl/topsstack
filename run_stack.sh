@@ -58,24 +58,8 @@ echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT
 stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
 
 # Process stack processor run scripts in order
-# Do the following in a loop?  
-echo source ./run_files/run_1_unpack_slc_topo_master
-source ./run_files/run_1_unpack_slc_topo_master
-echo source ./run_files/run_2_average_baseline
-source ./run_files/run_2_average_baseline
-echo source ./run_files/run_3_extract_burst_overlaps
-source ./run_files/run_3_extract_burst_overlaps
-echo source ./run_files/run_4_overlap_geo2rdr_resample
-source ./run_files/run_4_overlap_geo2rdr_resample
-echo source ./run_files/run_5_pairs_misreg
-source ./run_files/run_5_pairs_misreg
-echo source ./run_files/run_6_timeseries_misreg
-source ./run_files/run_6_timeseries_misreg
-echo source ./run_files/run_7_geo2rdr_resample
-source ./run_files/run_7_geo2rdr_resample
-echo source ./run_files/run_8_extract_stack_valid_region
-source ./run_files/run_8_extract_stack_valid_region
-echo source ./run_files/run_9_merge
-source ./run_files/run_9_merge
-echo source ./run_files/run_10_grid_baseline
-source ./run_files/run_10_grid_baseline
+nprocs=8
+for (( i=1 ; i <= 10 ; i++ )) ; do
+    echo run.py -i ./run_files/run_${i}_* -p $nprocs
+    run.py -i ./run_files/run_${i}_* -p $nprocs
+done
