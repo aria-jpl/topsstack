@@ -1,5 +1,5 @@
 {
-  "label": "Run topsStack processor",
+  "label": "topsStack Processor",
   "submission_type": "individual",
   "allowed_accounts": [ "ops" ],
   "action-type":  "both",
