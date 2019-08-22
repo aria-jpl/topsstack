@@ -57,6 +57,9 @@ fi
 echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
 stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
 
+# allowing use of the gdal_translate command
+export PATH="$PATH:/opt/conda/bin/"
+
 # Process stack processor run scripts in order
 nprocs=8
 for (( i=1 ; i <= 10 ; i++ )) ; do
