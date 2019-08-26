@@ -1,12 +1,9 @@
 import os
+import shutil
 import json
 import hashlib
 import re
 from osgeo import ogr, osr
-
-
-DATASET_NAMING_TEMPLATE = 'coregistered_slcs_{timestamp}'
-VERSION = 'v1.0'
 
 
 def read_context():
@@ -117,8 +114,12 @@ steps:
     3. create met.json
 """
 
+
 if __name__ == '__main__':
     from pprint import pprint
+
+    VERSION = 'v1.0'
+    DATASET_NAMING_TEMPLATE = 'coregistered_slcs_{min_timestamp}_{max_timestamp}'
 
     context_json = read_context()
     dataset_json_files, met_json_files = get_dataset_met_json_files(context_json)
@@ -133,3 +134,14 @@ if __name__ == '__main__':
     pprint(slc_scenes)
 
     min_timestamp, max_timestamp = get_min_max_timestamps(slc_scenes)
+
+    dataset_name = DATASET_NAMING_TEMPLATE.format(min_timestamp=min_timestamp, max_timestamp=max_timestamp)
+    if not os.path.exists(dataset_name):
+        os.mkdir(dataset_name)
+
+    # move merged/ master/ slaves/ directory to dataset directory
+    move_directories = ['merged', 'master', 'slaves']
+    for directory in move_directories:
+        shutil.move(directory, dataset_name)
+
+    # generate .dataset.json and .met.json

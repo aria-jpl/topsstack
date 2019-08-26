@@ -63,3 +63,6 @@ for (( i=1 ; i <= 10 ; i++ )) ; do
     echo run.py -i ./run_files/run_${i}_* -p $nprocs
     run.py -i ./run_files/run_${i}_* -p $nprocs
 done
+
+# Publishing dataset after stack processor completes
+python create_dataset.py
