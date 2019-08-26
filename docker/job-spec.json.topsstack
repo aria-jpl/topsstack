@@ -9,13 +9,25 @@
   "time_limit": 18000,
   "disk_usage": "100GB",
   "params": [
-    { 
-      "name": "region_of_interest",
+    {
+      "name": "min_lat",
+      "destination": "context"
+    },
+    {
+      "name": "max_lat",
+      "destination": "context"
+    },
+    {
+      "name": "min_lon",
+      "destination": "context"
+    },
+    {
+      "name": "max_lon",
       "destination": "context"
     },
     {
       "name":"localize_products",
-      "destination":"localize"
+      "destination": "localize"
     } 
   ]
 }
