@@ -82,21 +82,20 @@ def get_min_max_timestamps(scenes_ls):
     return min(timestamps), max(timestamps)
 
 
-def get_all_sensing_timestamps(dataset_json_files):
+def create_list_from_keys_json_file(json_files, *args):
     """
-    gets all the starttime and endtimes from the .dataset.json files
-    :param dataset_json_files: list[str]
-    :return: str, str
+    gets all key values in each .json file and returns a sorted array of values
+    :param json_files: list[str]
+    :return: list[]
     """
-    timestamps = set()
-    for json_file in dataset_json_files:
+    values = set()
+    for json_file in json_files:
         f = open(json_file)
         data = json.load(f)
-        start_time = data['starttime']
-        end_time = data['endtime']
-
-        timestamps = timestamps.union({start_time, end_time})
-    return sorted(list(timestamps))
+        for arg in args:
+            value = data[arg]
+            values.add(value)
+    return sorted(list(values))
 
 
 def camelcase_to_underscore(name):
@@ -130,7 +129,7 @@ def generate_dataset_json_data(dataset_json_files, version):
     dataset_json_data = dict()
     dataset_json_data['version'] = version
 
-    sensing_timestamps = get_all_sensing_timestamps(dataset_json_files)
+    sensing_timestamps = create_list_from_keys_json_file(dataset_json_files, 'starttime', 'endtime')
     dataset_json_data['starttime'] = min(sensing_timestamps)
     dataset_json_data['endtime'] = max(sensing_timestamps)
 
@@ -159,12 +158,14 @@ def generate_met_json_data(cxt, met_json_file_paths, dataset_json_files, version
         'orbitNumber',
         'trackNumber',
         'sensor',
-        'orbitCycle',
         'platform'
     ]
     for key in first_occurrence_keys:
         key, value = get_key_and_convert_to_underscore(met_json_file_paths, key)
         met_json_data[key] = value
+
+    orbit_cycles = create_list_from_keys_json_file(met_json_file_paths, 'orbitCycle')
+    met_json_data['orbit_cycles'] = orbit_cycles
 
     # generating bbox
     geojson, image_corners = get_union_polygon(dataset_json_files)
@@ -179,7 +180,7 @@ def generate_met_json_data(cxt, met_json_file_paths, dataset_json_files, version
     met_json_data['scene_count'] = len(scenes)
 
     # getting timestamps
-    sensing_timestamps = get_all_sensing_timestamps(dataset_json_files)
+    sensing_timestamps = create_list_from_keys_json_file(dataset_json_files, 'starttime', 'endtime')
     met_json_data['sensing_start'] = min(sensing_timestamps)
     met_json_data['sensing_stop'] = max(sensing_timestamps)
     met_json_data['timesteps'] = sensing_timestamps
