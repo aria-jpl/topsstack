@@ -9,7 +9,7 @@ def read_context():
 
 if __name__ == '__main__':
     VERSION = 'v1.0'
-    DATASET_NAMING_TEMPLATE = 'coregistered_slcs_{min_timestamp}_{max_timestamp}'
+    DATASET_NAMING_TEMPLATE = 'coregistered_slcs-{min_timestamp}-{max_timestamp}'
     PWD = os.getcwd()
 
     # creating list of all SLC .dataset.json and .met.json files

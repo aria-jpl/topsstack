@@ -79,7 +79,10 @@ def get_min_max_timestamps(scenes_ls):
 
         slc_timestamps = (matches.group(1), matches.group(2))
         timestamps = timestamps.union(slc_timestamps)
-    return min(timestamps), max(timestamps)
+
+    min_timestamp = min(timestamps)
+    max_timestamp = max(timestamps)
+    return min_timestamp.replace('T', ''), max_timestamp.replace('T', '')
 
 
 def create_list_from_keys_json_file(json_files, *args):
