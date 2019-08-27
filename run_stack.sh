@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Saving the processing start time for .met.json file
+export PROCESSING_START=$(date +%FT%T)
+
 set -e 
 PGE_BASE=$(cd `dirname ${BASH_SOURCE}`; pwd)
 
@@ -68,4 +71,4 @@ for (( i=1 ; i <= 10 ; i++ )) ; do
 done
 
 # Publishing dataset after stack processor completes
-python create_dataset.py
+python /home/ops/verdi/ops/topsstack/create_dataset.py
