@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source $HOME/.bash_profile
+
 # Saving the processing start time for .met.json file
 export PROCESSING_START=$(date +%FT%T)
 

@@ -1,4 +1,4 @@
-FROM hysds/pge-base:v3.0.0-rc.3
+FROM hysds/pge-base:latest
 
 # Set to root user
 USER root
