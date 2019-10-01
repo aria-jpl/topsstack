@@ -5,9 +5,9 @@
     "/home/ops/.netrc": "/home/ops/.netrc",
     "/home/ops/.aws": "/home/ops/.aws"
   },
-  "soft_time_limit": 10800,
-  "time_limit": 18000,
-  "disk_usage": "100GB",
+  "soft_time_limit": 432000,
+  "time_limit": 432000,
+  "disk_usage": "1000GB",
   "params": [
     {
       "name": "min_lat",
