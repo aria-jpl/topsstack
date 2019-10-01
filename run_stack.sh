@@ -56,9 +56,22 @@ else
     echo $WGS84 does not exist!
     exit 1
 fi
-# Create stack processor run scripts
-echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
-stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+
+
+# Getting MASTER_DATE environment variable
+export MASTER_DATE=$(python get_master_date.py)
+
+# Create stack processor run scripts (after checking for MASTER DATE)
+if [[ "$MASTER_DATE" ]]; then
+	echo "MASTER_DATE exists: ${MASTER_DATE}"
+	echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -m $MASTER_DATE -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+	stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -m $MASTER_DATE -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+else
+	echo "MASTER_DATE DOES NOT EXIST"
+	echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+	stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+fi
+
 
 # allowing use of the gdal_translate command
 export PATH="$PATH:/opt/conda/bin/"

@@ -67,8 +67,10 @@ def main():
 
     ctx_keys = ctx.keys()
     if 'min_lat' in ctx_keys or 'max_lat' in ctx_keys or 'min_lon' in ctx_keys or 'max_lon' in ctx_keys:
+        # if any values are present in _context.json we can assume user put them in manually
         bbox_data = get_user_input_bbox(ctx)
     else:
+        #
         bbox_data = get_minimum_bounding_rectangle()
 
     out = ' '.join(str(e) for e in bbox_data)
