@@ -29,6 +29,13 @@
       "optional": false
     },
     {
+      "name": "master_date",
+      "from": "submitter",
+      "type": "text",
+      "placeholder": "ex. 20190101",
+      "optional": true
+    },
+    {
       "name":"localize_products",
       "from":"dataset_jpath:",
       "type":"text",

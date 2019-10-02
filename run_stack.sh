@@ -58,19 +58,110 @@ else
     echo $WGS84 does not exist!
     exit 1
 fi
-# Create stack processor run scripts
-echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
-stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+
+
+# Getting MASTER_DATE environment variable
+export MASTER_DATE=$(python get_master_date.py)
+
+# Create stack processor run scripts (after checking for MASTER DATE)
+if [[ "$MASTER_DATE" ]]; then
+	echo "MASTER_DATE exists: ${MASTER_DATE}"
+	echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -m $MASTER_DATE -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+	stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -m $MASTER_DATE -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+else
+	echo "MASTER_DATE DOES NOT EXIST"
+	echo stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+	stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MINLON $MAXLON" -W slc
+fi
+
 
 # allowing use of the gdal_translate command
 export PATH="$PATH:/opt/conda/bin/"
 
-# Process stack processor run scripts in order
-nprocs=8
-for (( i=1 ; i <= 10 ; i++ )) ; do
-    echo run.py -i ./run_files/run_${i}_* -p $nprocs
-    run.py -i ./run_files/run_${i}_* -p $nprocs
-done
+
+# Jungkyo's GNU parallel for running all steps
+###########################################################################
+## STEP 1 ##
+start=`date +%s`
+cat run_files/run_1_unpack_slc_topo_master |head -1 | sh
+Num=`cat run_files/run_1_unpack_slc_topo_master | wc | awk '{print $1}'`
+echo $Num
+cat run_files/run_1_unpack_slc_topo_master | tail -$Num | parallel -j+10 --eta --load 15%
+end=`date +%s`
+runtime1=$((end-start))
+echo $runtime1
+
+## STEP 2 ##
+start=`date +%s`
+cat run_files/run_2_average_baseline | parallel -j+10 --eta --load 20%
+end=`date +%s`
+
+runtime2=$((end-start))
+echo $runtime2
+
+## STEP 3 ##
+start=`date +%s`a
+sh run_files/run_3_extract_burst_overlaps
+end=`date +%s`
+runtime3=$((end-start))
+echo $runtime3
+
+## STEP 4 ##
+start=`date +%s`
+cat run_files/run_4_overlap_geo2rdr_resample  | parallel -j+10 --eta --load 20%
+end=`date +%s`
+runtime4=$((end-start))
+echo $runtime4
+
+## STEP 5 ##
+start=`date +%s`
+cat run_files/run_5_pairs_misreg  | parallel -j+10 --eta --load 20%
+end=`date +%s`
+runtime5=$((end-start))
+echo $runtime5
+
+## STEP 6 ##
+start=`date +%s`
+sh run_files/run_6_timeseries_misreg
+end=`date +%s`
+runtime6=$((end-start))
+echo $runtime6
+
+## STEP 7 ##
+start=`date +%s`
+cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 20%
+end=`date +%s`
+runtime7=$((end-start))
+echo $runtime7
+
+## STEP 8##
+start=`date +%s`
+sh run_files/run_8_extract_stack_valid_region
+end=`date +%s`
+runtime8=$((end-start))
+echo $runtime8
+
+
+## STEP 9 ##
+start=`date +%s`
+cat run_files/run_9_merge  | parallel -j+10 --eta --load 20%
+end=`date +%s`
+runtime9=$((end-start))
+echo $runtime9
+
+## SUMMARY ##
+echo "@@@@ SUMMARY  @@@@@@"
+echo "@ Step 1:  $runtime1"
+echo "@ Step 2:  $runtime2"
+echo "@ Step 3:  $runtime3"
+echo "@ Step 4:  $runtime4"
+echo "@ Step 5:  $runtime5"
+echo "@ Step 6:  $runtime6"
+echo "@ Step 7:  $runtime7"
+echo "@ Step 8:  $runtime8"
+echo "@ Step 9:  $runtime9"
+###########################################################################
+
 
 # Publishing dataset after stack processor completes
 python /home/ops/verdi/ops/topsstack/create_dataset.py
