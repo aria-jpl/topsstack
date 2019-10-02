@@ -65,12 +65,11 @@ def main():
     ctx = load_context()
     # min_lat, max_lat, min_lon, max_lon = ctx['region_of_interest']
 
-    ctx_keys = ctx.keys()
-    if 'min_lat' in ctx_keys or 'max_lat' in ctx_keys or 'min_lon' in ctx_keys or 'max_lon' in ctx_keys:
+    if ctx['min_lat'] or ctx['max_lat'] or ctx['min_lon'] or ctx['max_lon']:
         # if any values are present in _context.json we can assume user put them in manually
         bbox_data = get_user_input_bbox(ctx)
     else:
-        #
+        # if user did not define ANY lat lons
         bbox_data = get_minimum_bounding_rectangle()
 
     out = ' '.join(str(e) for e in bbox_data)

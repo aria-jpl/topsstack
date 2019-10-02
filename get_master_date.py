@@ -14,7 +14,7 @@ def load_context():
 
 if __name__ == '__main__':
     ctx = load_context()
-    master_date = ctx.get('master_date', None)
+    master_date = ctx['master_date']
 
     if master_date:
         print(master_date)  # print it out into a env variable in run_stack.sh
