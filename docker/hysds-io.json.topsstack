@@ -8,25 +8,25 @@
       "name": "min_lat",
       "from": "submitter",
       "type": "number",
-      "optional": false
+      "optional": true
     },
     {
       "name": "max_lat",
       "from": "submitter",
       "type": "number",
-      "optional": false
+      "optional": true
     },
     {
       "name": "min_lon",
       "from": "submitter",
       "type": "number",
-      "optional": false
+      "optional": true
     },
     {
       "name": "max_lon",
       "from": "submitter",
       "type": "number",
-      "optional": false
+      "optional": true
     },
     {
       "name": "master_date",
