@@ -86,6 +86,7 @@ start=`date +%s`
 cat run_files/run_1_unpack_slc_topo_master |head -1 | sh
 Num=`cat run_files/run_1_unpack_slc_topo_master | wc | awk '{print $1}'`
 echo $Num
+echo "cat run_files/run_1_unpack_slc_topo_master | tail -$Num | parallel -j+10 --eta --load 15%"
 cat run_files/run_1_unpack_slc_topo_master | tail -$Num | parallel -j+10 --eta --load 15%
 end=`date +%s`
 runtime1=$((end-start))
@@ -93,6 +94,7 @@ echo $runtime1
 
 ## STEP 2 ##
 start=`date +%s`
+echo "cat run_files/run_2_average_baseline | parallel -j+10 --eta --load 20%"
 cat run_files/run_2_average_baseline | parallel -j+10 --eta --load 20%
 end=`date +%s`
 
@@ -101,6 +103,7 @@ echo $runtime2
 
 ## STEP 3 ##
 start=`date +%s`a
+echo "sh run_files/run_3_extract_burst_overlaps"
 sh run_files/run_3_extract_burst_overlaps
 end=`date +%s`
 runtime3=$((end-start))
@@ -108,6 +111,7 @@ echo $runtime3
 
 ## STEP 4 ##
 start=`date +%s`
+echo "cat run_files/run_4_overlap_geo2rdr_resample  | parallel -j+10 --eta --load 20%"
 cat run_files/run_4_overlap_geo2rdr_resample  | parallel -j+10 --eta --load 20%
 end=`date +%s`
 runtime4=$((end-start))
@@ -115,6 +119,7 @@ echo $runtime4
 
 ## STEP 5 ##
 start=`date +%s`
+echo "cat run_files/run_5_pairs_misreg  | parallel -j+10 --eta --load 20%"
 cat run_files/run_5_pairs_misreg  | parallel -j+10 --eta --load 20%
 end=`date +%s`
 runtime5=$((end-start))
@@ -122,6 +127,7 @@ echo $runtime5
 
 ## STEP 6 ##
 start=`date +%s`
+echo "sh run_files/run_6_timeseries_misreg"
 sh run_files/run_6_timeseries_misreg
 end=`date +%s`
 runtime6=$((end-start))
@@ -129,6 +135,7 @@ echo $runtime6
 
 ## STEP 7 ##
 start=`date +%s`
+echo "cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 20%"
 cat run_files/run_7_geo2rdr_resample   | parallel -j+10 --eta --load 20%
 end=`date +%s`
 runtime7=$((end-start))
@@ -136,6 +143,7 @@ echo $runtime7
 
 ## STEP 8##
 start=`date +%s`
+echo "sh run_files/run_8_extract_stack_valid_region"
 sh run_files/run_8_extract_stack_valid_region
 end=`date +%s`
 runtime8=$((end-start))
@@ -144,10 +152,19 @@ echo $runtime8
 
 ## STEP 9 ##
 start=`date +%s`
+echo "cat run_files/run_9_merge  | parallel -j+10 --eta --load 20%"
 cat run_files/run_9_merge  | parallel -j+10 --eta --load 20%
 end=`date +%s`
 runtime9=$((end-start))
 echo $runtime9
+
+## STEP 9 ##
+start=`date +%s`
+echo "cat run_files/run_10_grid_baseline  | parallel -j+10 --eta --load 15%"
+cat run_files/run_10_grid_baseline  | parallel -j+10 --eta --load 15%
+end=`date +%s`
+runtime10=$((end-start))
+echo $runtime10
 
 ## SUMMARY ##
 echo "@@@@ SUMMARY  @@@@@@"
@@ -160,6 +177,7 @@ echo "@ Step 6:  $runtime6"
 echo "@ Step 7:  $runtime7"
 echo "@ Step 8:  $runtime8"
 echo "@ Step 9:  $runtime9"
+echo "@ Step 10:  $runtime10"
 ###########################################################################
 
 
