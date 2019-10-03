@@ -31,7 +31,7 @@ if __name__ == '__main__':
         shutil.move(directory, dataset_name)
 
     # move _stdout.txt log file to dataset
-    shutil.copyfile('_stdout.txt', dataset_name)
+    shutil.copyfile('_stdout.txt', os.path.join(dataset_name, '_stdout.txt'))
 
     # generate .dataset.json data
     dataset_json_data = generate_dataset_json_data(dataset_json_files, VERSION)
