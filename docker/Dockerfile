@@ -24,6 +24,11 @@ RUN mkdir -p $STACK_INSTALL_DIR \
  && cp -r $TOPSSTACK_COPY_DIR $STACK_INSTALL_DIR \
  && rm -rf $TOPSSTACK_COPY_DIR
 
+RNN cd /etc/yum.repos.d/ && \
+    wget http://download.opensuse.org/repositories/home:/tange/CentOS_CentOS-6/home:tange.repo && \
+    yum install parallel && \
+    yum clean all
+
 # Set to ops user
 USER ops
 
