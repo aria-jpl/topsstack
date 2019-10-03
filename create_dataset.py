@@ -30,6 +30,9 @@ if __name__ == '__main__':
     for directory in move_directories:
         shutil.move(directory, dataset_name)
 
+    # move _stdout.txt log file to dataset
+    shutil.copyfile('_stdout.txt', dataset_name)
+
     # generate .dataset.json data
     dataset_json_data = generate_dataset_json_data(dataset_json_files, VERSION)
     dataset_json_data['label'] = dataset_name
