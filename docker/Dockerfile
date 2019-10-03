@@ -26,7 +26,7 @@ RUN mkdir -p $STACK_INSTALL_DIR \
 
 RUN cd /etc/yum.repos.d/ && \
     wget http://download.opensuse.org/repositories/home:/tange/CentOS_CentOS-6/home:tange.repo && \
-    yum install parallel && \
+    yum install parallel -y && \
     yum clean all
 
 # Set to ops user
