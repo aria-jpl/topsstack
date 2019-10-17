@@ -61,7 +61,7 @@ fi
 
 
 # Getting MASTER_DATE environment variable
-export MASTER_DATE=$(python get_master_date.py)
+export MASTER_DATE=$(python ${PGE_BASE}/get_master_date.py)
 
 # Create stack processor run scripts (after checking for MASTER DATE)
 if [[ "$MASTER_DATE" ]]; then
