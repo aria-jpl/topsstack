@@ -102,7 +102,7 @@ runtime2=$((end-start))
 echo $runtime2
 
 ## STEP 3 ##
-start=`date +%s`a
+start=`date +%s`
 echo "sh run_files/run_3_extract_burst_overlaps"
 sh run_files/run_3_extract_burst_overlaps
 end=`date +%s`
