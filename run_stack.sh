@@ -66,7 +66,7 @@ stackSentinel.py -s zip/ -d $WGS84 -a AuxDir/ -o Orbits -b "$MINLAT $MAXLAT $MIN
 export PATH="$PATH:/opt/conda/bin/"
 
 # Process stack processor run scripts in order
-nprocs=8
+nprocs=$(nproc --all)
 for (( i=1 ; i <= 10 ; i++ )) ; do
     echo run.py -i ./run_files/run_${i}_* -p $nprocs
     run.py -i ./run_files/run_${i}_* -p $nprocs
